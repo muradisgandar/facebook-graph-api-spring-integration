@@ -4,8 +4,8 @@ spring:
       client:
         registration:
           facebook:
-            client-id: 720043068827735
-            client-secret: 5716db37638e3f7ea782a11f205a3e55
+            client-id: ${SECRET_ID}
+            client-secret: ${SECRET_KEY}
             scope:
               - user_posts
               - pages_show_list

@@ -1,0 +1,51 @@
+
+
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Pages</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+		<script>
+			function sendId(id) {
+				document.getElementById("sendIdForGetReviews").value = id;
+			}
+		</script>
+	</head>
+	
+	<body>
+
+<!--		<th:block th:each="pa : ${page}">-->
+<!--			<h4 th:text="${pa.id}">ID</h4>-->
+<!--			<p th:text="${pa.name}">NAME</p>-->
+<!--			<hr/>-->
+<!--		</th:block>-->
+	<div th:each="pa : ${page}">
+		<form action="/get-reviews" method="GET">
+				<ul >
+
+
+					<!--						<button type="button" class="btn btn-primary"-->
+					<!--								 th:text="${pa.name}"-->
+					<!--								 th:value="${pa.getId()}">-->
+					<!--						</button>-->
+					<li>
+						<input type="hidden" name="pageId"  th:value="${pa.getId()}"/>
+						<input type="submit"  class="btn btn-success" th:value="${pa.name}"/>
+					</li>
+
+
+				</ul>
+
+		</form>
+	</div>
+
+
+
+	</body>
+</html>

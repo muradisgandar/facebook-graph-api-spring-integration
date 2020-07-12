@@ -15,7 +15,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FacebookGraph extends ApiBinding {
@@ -29,36 +29,24 @@ public class FacebookGraph extends ApiBinding {
         this.accessToken = accessToken;
     }
 
-    /*
-     adamin 1 neche sehifesi ola biler ve ya 1 dene de ola biler istenilen halda duzgun sehifeye getmke uchun mutleq hemin sehifenin id sini bilmeliyik
-     bu method adamin butun pagelerini getirir id ve name ile birlikde
-     */
     public List<Page> getPages() {
         FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
         Connection<Page> pages = facebookClient.fetchConnection("me/accounts", Page.class);
 
-//		System.out.println(pages.getData().get(0).getId());
-//		System.out.println(pages.getData().get(0).getName());
         return pages.getData();
     }
 
-    /*
-     page le bagli butun ishler uchun mutleq hemin page a xususi access token lazmidir
-     ve bu token ancaq sehifenin id si ile elde olunur , burada 111995053906051 pagein idsidir
-     burda hardcode olunub amma bu bize frontdan gelmelidir dushunurem, ve hemin id ile avtomatik request gonderib token aliriq
-     */
-    public String pageAccessToken() {
+    public String pageAccessToken(String pageId) {
         FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
 
-        Page page = facebookClient.fetchObject("111995053906051", Page.class, Parameter.with("fields", "access_token"));
+        Page page = facebookClient.fetchObject(pageId, Page.class, Parameter.with("fields", "access_token"));
         return page.getAccessToken();
 
     }
 
-    // token alandan sonra avtomatik token goturulur backendde ve bize lazim olan sorgu gonderiilir ve data alinir
-    public List<OpenGraphRating> getReviewWithRestFb() {
+    public List<OpenGraphRating> getReviewWithRestFb(String pageId) {
 
-        FacebookClient facebookClient = new DefaultFacebookClient(pageAccessToken(), Version.LATEST);
+        FacebookClient facebookClient = new DefaultFacebookClient(pageAccessToken(pageId), Version.LATEST);
 
         Connection<OpenGraphRating> ogRatingConn =
                 facebookClient.fetchConnection("me/ratings",
@@ -67,7 +55,10 @@ public class FacebookGraph extends ApiBinding {
 
 
         for (OpenGraphRating og : ogRatingConn.getData()) {
-            downloadFile(og.getReviewer().getPicture().getUrl());
+            if(og.getReviewer().getPicture() != null){
+                downloadFile(og.getReviewer().getPicture().getUrl());
+            }
+
         }
 
         return ogRatingConn.getData();
@@ -75,11 +66,10 @@ public class FacebookGraph extends ApiBinding {
 
 
     public void downloadFile(String photoUrl) {
-
         byte[] imageBytes = restTemplate.getForObject(photoUrl, byte[].class);
         try {
             String directoryCreateIfNotExist = decideUploadDirectoryCreateIfNotExist();
-            Path path = Paths.get(directoryCreateIfNotExist + File.separator + Thread.currentThread().getId() + ".jpeg");
+            Path path = Paths.get(directoryCreateIfNotExist + File.separator + Thread.currentThread().getId() + new Date().getTime() + ".jpeg");
             Files.write(path, imageBytes);
         } catch (IOException e) {
             e.printStackTrace();

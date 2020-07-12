@@ -1,7 +1,5 @@
 package sample;
 
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -33,7 +31,6 @@ public class SocialConfig {
 				OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(clientRegistrationId, oauthToken.getName());
 				accessToken = client.getAccessToken().getTokenValue();
 
-				System.out.println(accessToken);
 			}
 		}
 		return new FacebookGraph(accessToken);
