@@ -1,4 +1,4 @@
-package sample.api;
+package sample.facebook;
 
 import java.io.IOException;
 

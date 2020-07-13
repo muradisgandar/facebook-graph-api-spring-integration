@@ -1,23 +1,26 @@
-package sample;
+package sample.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 
-import sample.api.facebook.FacebookGraph;
+import sample.facebook.FacebookGraph;
+import sample.service.FileService;
 
-import java.util.List;
 
 @Configuration
 public class SocialConfig {
+
+	private final FileService fileService;
+
+	public SocialConfig(FileService fileService) {
+		this.fileService = fileService;
+	}
 
 	@Bean
 	@RequestScope
@@ -33,19 +36,7 @@ public class SocialConfig {
 
 			}
 		}
-		return new FacebookGraph(accessToken);
-	}
-
-
-	// bu configler shekli download etmek uchundur
-	@Bean
-	public RestTemplate restTemplate(List<HttpMessageConverter<?>> messageConverters) {
-		return new RestTemplate(messageConverters);
-	}
-
-	@Bean
-	public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-		return new ByteArrayHttpMessageConverter();
+		return new FacebookGraph(accessToken, fileService);
 	}
 
 

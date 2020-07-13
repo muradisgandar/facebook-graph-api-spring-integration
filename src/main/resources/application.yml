@@ -12,4 +12,7 @@ spring:
               - pages_manage_metadata
               - pages_read_user_content
 
+file:
+  upload:
+    folder: /home/murad/photos/1
 
