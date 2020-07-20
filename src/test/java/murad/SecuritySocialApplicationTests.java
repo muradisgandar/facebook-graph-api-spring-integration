@@ -1,4 +1,4 @@
-package sample;
+package murad;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

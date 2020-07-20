@@ -1,4 +1,4 @@
-package sample.configuration;
+package murad.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.context.annotation.RequestScope;
 
-import sample.facebook.FacebookGraph;
-import sample.service.FileService;
+import murad.facebook.FacebookGraph;
+import murad.service.FileService;
 
 
 @Configuration

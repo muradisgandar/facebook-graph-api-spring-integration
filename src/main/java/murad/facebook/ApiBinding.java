@@ -1,4 +1,4 @@
-package sample.facebook;
+package murad.facebook;
 
 import java.io.IOException;
 

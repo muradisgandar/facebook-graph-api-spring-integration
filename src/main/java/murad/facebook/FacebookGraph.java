@@ -1,4 +1,4 @@
-package sample.facebook;
+package murad.facebook;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -7,7 +7,7 @@ import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.OpenGraphRating;
 import com.restfb.types.Page;
-import sample.service.FileService;
+import murad.service.FileService;
 
 import java.util.List;
 
